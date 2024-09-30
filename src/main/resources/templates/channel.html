@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+    <link rel = "stylesheet" href="/channel.css">
+    <head>
+        <title th:text="${channel.channelName}"></title>
+        <script type="text/javascript">
+            if (!sessionStorage.getItem('user')) {
+                window.location.replace('/welcome')
+            }
+        </script>
+
+    </head>
+    <body>
+
+        <div id="messages">
+        </div>
+        <div style="margin-top: 10px" class="users-message">
+            <textarea rows="4" cols="60" id="message-box" th:attr="data-id=${channel.channelId}">
+
+            </textarea>
+            <script type="text/javascript" src="/channel.js"></script>
+
+        </div>
+
+        <a href="/welcome">Return</a>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+    <head>
+        <title>Chat Space</title>
+        <script type="text/javascript">
+            let user = sessionStorage.getItem('user')
+
+            if (user == null) {
+                let name = prompt("Please enter your user name to start chatting", "Guest")
+                while (name === null || name === '') {
+                    name = prompt("Please enter your user name to start chatting", "Guest")
+                }
+
+            fetch('/users', {
+                    method: 'POST',
+                    body: name
+                }).then(response => response.json())
+                .then(user => {
+                    sessionStorage.setItem('user', JSON.stringify(user))
+                })
+
+            } else {
+                user = JSON.parse(sessionStorage.getItem('user'))
+                console.log(user)
+            }
+        </script>
+    </head>
+    <body>
+
+        <h2>Join a Channel</h2>
+        <div th:each="channel: ${channels}">
+            <a th:href="@{/channels/{channelId} (channelId=${channel.channelId})}" th:text="${channel.channelName}"></a>
+        </div>
+
+        <h3 style="margin-top: 5px">Create A New Channel</h3>
+        <form action="create-channel" method="post">
+            <label for="channel-name">Enter the Name of the Channel</label>
+            <br>
+            <input type="text" id="channel-name" name="channelName"/>
+            <br>
+            <input style="margin-top: 8px" type="submit" value="Submit">
+        </form>
+
+    </body>
+</html>
